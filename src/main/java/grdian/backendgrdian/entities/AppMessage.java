@@ -25,6 +25,9 @@ public class AppMessage {
 	@ManyToMany
 	@JsonIgnore
 	private Set<User> recievers = new HashSet<User>();
+	
+	@ManyToOne
+	private ChatRoom chatRoom;
 
 	private int type;
 
@@ -36,7 +39,6 @@ public class AppMessage {
 	}
 
 	public AppMessage(int type, String body, User sender) {
-		super();
 		this.sender = sender;
 		this.type = type;
 		this.body = body;

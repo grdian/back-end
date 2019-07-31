@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,6 +32,9 @@ public class User {
 
 	@ManyToMany(mappedBy = "recievers")
 	private Set<AppMessage> recievedMessages = new HashSet<AppMessage>();
+	
+	@ManyToOne
+	private ChatRoom chatRoom;
 
 	public User() {
 	}
