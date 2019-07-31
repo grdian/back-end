@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import grdian.backendgrdian.entities.AppMessage;
 import grdian.backendgrdian.entities.User;
 import grdian.backendgrdian.repos.AppMessageRepository;
 import grdian.backendgrdian.repos.UserRepository;
@@ -27,54 +28,55 @@ public class Initializer implements CommandLineRunner {
 	private boolean errorsDuringInitialization = false;
 
 	@Override
-	public void run(String... args) throws Exception
-		{
+	public void run(String... args) throws Exception {
 		logStartOfInitializer();
 
-		try
-			{
+		try {
 			populateRepositories();
-			}
-		catch (Exception e)
-			{
+		} catch (Exception e) {
 			errorsDuringInitialization = true;
 			logErrorAndException(e);
-			}
+		}
 		logCompletionOfInitializer();
-		}
+	}
 
-	private void populateRepositories()
-		{
+	private void populateRepositories() {
 		// Create and save placeholder entities here
-		}
+		User testSender = new User("Lawrence", "Mboya", "imgUrl", "1234567890", "someone@gmail.com", "password");
+		userRepo.save(testSender);
+		User testReciever = new User("Nazik", "Elhaga", "imgUrl", "0987654321", "someoneelse@gmail.com",
+				"anotherpassword");
+		userRepo.save(testReciever);
 
-	private void logStartOfInitializer()
-		{
+		testSender = userRepo.findById(testSender.getId()).get();
+
+		AppMessage messageToSend = new AppMessage(0, "Message body", testSender);
+		messageToSend.addReciever(testReciever);
+		messageRepo.save(messageToSend);
+	}
+
+	private void logStartOfInitializer() {
 		logger.info("Starting Initializer");
 		startTimestamp = Instant.now();
-		}
+	}
 
-	private void logErrorAndException(Exception ex)
-		{
+	private void logErrorAndException(Exception ex) {
 		logger.error("There was a problem in the execution of the Initializer.", ex);
-		}
+	}
 
-	private void logCompletionOfInitializer()
-		{
-		logger.info("Initializer done " + checkForErrors() + ", it took " + timeToCompleteInitializer() + " ms to finish.");
-		}
+	private void logCompletionOfInitializer() {
+		logger.info(
+				"Initializer done " + checkForErrors() + ", it took " + timeToCompleteInitializer() + " ms to finish.");
+	}
 
-	private String checkForErrors()
-		{
-		if (errorsDuringInitialization)
-			{
+	private String checkForErrors() {
+		if (errorsDuringInitialization) {
 			return "WITH ERRORS";
-			}
+		}
 		return "";
-		}
+	}
 
-	private int timeToCompleteInitializer()
-		{
+	private int timeToCompleteInitializer() {
 		return Instant.now().compareTo(startTimestamp) / 1000000;
-		}
+	}
 }
