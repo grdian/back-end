@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,10 +31,8 @@ public class User {
 	private Set<AppMessage> sentMessages = new HashSet<AppMessage>();
 
 	@ManyToMany(mappedBy = "recievers")
+	@JsonIgnore
 	private Set<AppMessage> recievedMessages = new HashSet<AppMessage>();
-	
-	@ManyToOne
-	private ChatRoom chatRoom;
 
 	public User() {
 	}

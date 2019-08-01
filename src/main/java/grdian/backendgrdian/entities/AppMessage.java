@@ -25,33 +25,20 @@ public class AppMessage {
 	@ManyToMany
 	@JsonIgnore
 	private Set<User> recievers = new HashSet<User>();
-	
-	@ManyToOne
-	private ChatRoom chatRoom;
-
-	private int type;
 
 	private String body;
-
-//	private Long senderIdPostman;
 
 	public AppMessage() {
 	}
 
-	public AppMessage(int type, String body, User sender) {
+	public AppMessage(String body, User sender) {
 		this.sender = sender;
-		this.type = type;
 		this.body = body;
-//		this.senderIdPostman = sender.getId();
 	}
 
 	public Long getId() {
 		return id;
 	}
-
-//	public Long getSenderId() {
-//		return senderIdPostman;
-//	}
 
 	public User getSender() {
 		return sender;
@@ -59,10 +46,6 @@ public class AppMessage {
 
 	public Set<User> getRecievers() {
 		return recievers;
-	}
-
-	public int getType() {
-		return type;
 	}
 
 	public String getBody() {

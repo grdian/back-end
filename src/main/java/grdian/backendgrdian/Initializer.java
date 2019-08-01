@@ -42,17 +42,25 @@ public class Initializer implements CommandLineRunner {
 
 	private void populateRepositories() {
 		// Create and save placeholder entities here
-		User testSender = new User("Lawrence", "Mboya", "imgUrl", "1234567890", "someone@gmail.com", "password");
-		userRepo.save(testSender);
-		User testReciever = new User("Nazik", "Elhaga", "imgUrl", "0987654321", "someoneelse@gmail.com",
-				"anotherpassword");
-		userRepo.save(testReciever);
+//		User testSender = new User("Lawrence", "Mboya", "imgUrl", "1234567890", "someone@gmail.com", "password");
+//		userRepo.save(testSender);
+//		User testReciever = new User("Nazik", "Elhaga", "imgUrl", "0987654321", "someoneelse@gmail.com",
+//				"anotherpassword");
+//		userRepo.save(testReciever);
+//
+//		testSender = userRepo.findById(testSender.getId()).get();
+//
+//		AppMessage messageToSend = new AppMessage("Message body", testSender);
+//		messageToSend.addReciever(testReciever);
+//		messageRepo.save(messageToSend);
 
-		testSender = userRepo.findById(testSender.getId()).get();
+		User user01 = new User("Lawrence", "Mboya", "imgUrl", "1234567890", "mboya@gmail.com", "password");
+		User user02 = new User("Nazik", "Elhaga", "imgUrl", "0987654321", "elhag@gmail.com", "password");
+		User user03 = new User("Tyler", "Conner", "imgUrl", "0987654321", "conner@gmail.com", "password");
 
-		AppMessage messageToSend = new AppMessage(0, "Message body", testSender);
-		messageToSend.addReciever(testReciever);
-		messageRepo.save(messageToSend);
+		userRepo.save(user01);
+		userRepo.save(user02);
+		userRepo.save(user03);
 	}
 
 	private void logStartOfInitializer() {

@@ -43,7 +43,7 @@ public class JPAWiringTest {
 		User testSender = new User("Lawrence", "Mboya", "imgUrl", "1234567890", "someone@gmail.com", "password");
 		userRepo.save(testSender);
 
-		AppMessage messageToSend = new AppMessage(0, "Message body", testSender);
+		AppMessage messageToSend = new AppMessage("Message body", testSender);
 		messageRepo.save(messageToSend);
 
 		entityManager.flush();
@@ -62,7 +62,7 @@ public class JPAWiringTest {
 				"anotherpassword");
 		userRepo.save(testReciever);
 
-		AppMessage messageToSend = new AppMessage(0, "Message body", testSender);
+		AppMessage messageToSend = new AppMessage("Message body", testSender);
 		messageToSend.addReciever(testReciever);
 		messageRepo.save(messageToSend);
 
