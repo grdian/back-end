@@ -25,14 +25,15 @@ public class MailMan implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 	}
 
-	public AppMessage sendMessageToUsers(AppMessage message) {
+	public void sendMessageToUsers(AppMessage message) {
+		
 		Iterable<User> users = userRepo.findAll();
 		for (User user : users) {
 			if (user != message.getSender()) {
-				message.addReciever(user);
+				user.addRecievedMessage(message);
+				userRepo.save(user);
 			}
 		}
-		return messageRepo.save(message);
 	}
 
 	public Set<AppMessage> getInboxForUser(User reciever) {

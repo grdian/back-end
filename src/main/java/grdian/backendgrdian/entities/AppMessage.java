@@ -28,6 +28,10 @@ public class AppMessage {
 
 	private String body;
 
+	private boolean resolved = false;
+
+	private String comments = "";
+
 	public AppMessage() {
 	}
 
@@ -50,6 +54,22 @@ public class AppMessage {
 
 	public String getBody() {
 		return body;
+	}
+
+	public boolean isResolved() {
+		return resolved;
+	}
+
+	public void setResolved(boolean resolved) {
+		this.resolved = resolved;
+	}
+
+	public void addComment(String comment) {
+		this.comments += comment;
+	}
+
+	public String getComments() {
+		return comments;
 	}
 
 	public void addReciever(User reciever) {

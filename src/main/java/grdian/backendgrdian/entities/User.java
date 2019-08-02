@@ -83,10 +83,10 @@ public class User {
 		return recievedMessages;
 	}
 
-//	public void addRecievedMessage(AppMessage message) {
-//		recievedMessages.add(message);
-//		message.getRecievers().add(this);
-//	}
+	public void addRecievedMessage(AppMessage message) {
+		recievedMessages.add(message);
+		message.getRecievers().add(this);
+	}
 
 	@Override
 	public int hashCode() {

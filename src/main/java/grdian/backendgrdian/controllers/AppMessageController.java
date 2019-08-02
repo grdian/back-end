@@ -1,10 +1,16 @@
 package grdian.backendgrdian.controllers;
 
+import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+import org.skyscreamer.jsonassert.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +58,7 @@ public class AppMessageController {
 		String body = messageModel.getBody();
 		AppMessage message = new AppMessage(body, sender);
 		messageRepo.save(message);
-		message = mailMan.sendMessageToUsers(message);
+		mailMan.sendMessageToUsers(message);
 	}
 
 	@PostMapping("/messages/inbox")
@@ -61,6 +67,38 @@ public class AppMessageController {
 		User reciever = userRepo.findById(recieverId).get();
 		Set<AppMessage> inbox = mailMan.getInboxForUser(reciever);
 		return inbox;
+	}
+
+	@PatchMapping("messages/{id}/resolve")
+	public void resolveAlert(@PathVariable() Long id, HttpServletResponse response) throws Exception {
+		Optional potentialMessage = messageRepo.findById(id);
+		if (potentialMessage.isPresent()) {
+			AppMessage message = (AppMessage) potentialMessage.get();
+			message.setResolved(true);
+			messageRepo.save(message);
+		}
+		response.sendRedirect("/api/messages/" + id);
+	}
+
+	@PatchMapping("messages/{id}/comment")
+	public void addCommentToMessage(@PathVariable() Long id, @RequestBody String commentUpdate,
+			HttpServletResponse response) throws Exception {
+
+		Optional<AppMessage> potentialMessage = messageRepo.findById(id);
+		AppMessage message;
+
+		if (potentialMessage.isPresent()) {
+			message = (AppMessage) potentialMessage.get();
+		} else {
+			throw new Exception("No such message to comment on.");
+		}
+
+		JSONObject json = (JSONObject) JSONParser.parseJSON(commentUpdate);
+		String comment = json.getString("comment");
+
+		message.addComment(comment);
+		messageRepo.save(message);
+		response.sendRedirect("/api/messages/" + id);
 	}
 
 }
