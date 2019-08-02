@@ -19,10 +19,19 @@ public class UserTest {
 	UserRepository userRepo;
 
 	@Test
-	public void canCreateUserInstance()
-		{
+	public void canCreateUserInstance() {
 		User underTest = new User();
 		assertThat(underTest, is(notNullValue()));
-		}
+	}
+
+	@Test
+	public void canFindAUserByEmail() {
+		User underTest = new User("joe", "peschi", "img", "0987654321", "joe@gmail.com", "password");
+		userRepo.save(underTest);
+		String emailAddress = "joe@gmail.com";
+
+		User loadedUser = userRepo.findByEmailAddress(emailAddress);
+		assertThat(underTest, is(loadedUser));
+	}
 
 }
