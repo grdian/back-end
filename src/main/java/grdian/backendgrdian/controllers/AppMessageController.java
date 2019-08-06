@@ -63,9 +63,9 @@ public class AppMessageController {
 
 	@PostMapping("/messages/inbox")
 	public Set<AppMessage> sendInboxToUser(@RequestBody InboxRequestPostModel inboxRequestPostModel) {
-		Long recieverId = inboxRequestPostModel.getRecieverId();
-		User reciever = userRepo.findById(recieverId).get();
-		Set<AppMessage> inbox = mailMan.getInboxForUser(reciever);
+		Long receiverId = inboxRequestPostModel.getRecieverId();
+		User receiver = userRepo.findById(receiverId).get();
+		Set<AppMessage> inbox = mailMan.getInboxForUser(receiver);
 		return inbox;
 	}
 

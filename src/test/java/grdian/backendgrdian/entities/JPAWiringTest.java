@@ -63,7 +63,7 @@ public class JPAWiringTest {
 		userRepo.save(testReciever);
 
 		AppMessage messageToSend = new AppMessage("Message body", testSender);
-		messageToSend.addReciever(testReciever);
+		messageToSend.addReceiver(testReciever);
 		messageRepo.save(messageToSend);
 
 		entityManager.flush();
@@ -72,7 +72,7 @@ public class JPAWiringTest {
 //		User loadedUser = userRepo.findById(testSender.getId()).get();
 		AppMessage loadedMessage = messageRepo.findById(messageToSend.getId()).get();
 		User loadedReciever = userRepo.findById(testReciever.getId()).get();
-		assertThat(loadedMessage.getRecievers(), containsInAnyOrder(loadedReciever));
+		assertThat(loadedMessage.getReceivers(), containsInAnyOrder(loadedReciever));
 
 	}
 

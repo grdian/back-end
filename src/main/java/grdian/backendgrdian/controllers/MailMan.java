@@ -13,7 +13,7 @@ import grdian.backendgrdian.repos.AppMessageRepository;
 import grdian.backendgrdian.repos.UserRepository;
 
 @Service
-public class MailMan implements CommandLineRunner {
+public class MailMan {
 
 	@Autowired
 	UserRepository userRepo;
@@ -21,27 +21,23 @@ public class MailMan implements CommandLineRunner {
 	@Autowired
 	AppMessageRepository messageRepo;
 
-	@Override
-	public void run(String... args) throws Exception {
-	}
-
 	public void sendMessageToUsers(AppMessage message) {
-		
+
 		Iterable<User> users = userRepo.findAll();
 		for (User user : users) {
 			if (user != message.getSender()) {
-				user.addRecievedMessage(message);
+				user.addReceivedMessage(message);
 				userRepo.save(user);
 			}
 		}
 	}
 
-	public Set<AppMessage> getInboxForUser(User reciever) {
+	public Set<AppMessage> getInboxForUser(User receiver) {
 		Iterable<AppMessage> allMessages = messageRepo.findAll();
 		Set<AppMessage> inbox = new HashSet<AppMessage>();
 		for (AppMessage message : allMessages) {
-			Set<User> recievers = message.getRecievers();
-			if (recievers.contains(reciever)) {
+			Set<User> receivers = message.getReceivers();
+			if (receivers.contains(receiver)) {
 				inbox.add(message);
 			}
 		}

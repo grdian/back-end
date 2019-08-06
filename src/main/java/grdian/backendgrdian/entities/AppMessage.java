@@ -24,7 +24,7 @@ public class AppMessage {
 
 	@ManyToMany
 	@JsonIgnore
-	private Set<User> recievers = new HashSet<User>();
+	private Set<User> receivers = new HashSet<User>();
 
 	private String body;
 
@@ -48,8 +48,8 @@ public class AppMessage {
 		return sender;
 	}
 
-	public Set<User> getRecievers() {
-		return recievers;
+	public Set<User> getReceivers() {
+		return receivers;
 	}
 
 	public String getBody() {
@@ -72,9 +72,9 @@ public class AppMessage {
 		return comments;
 	}
 
-	public void addReciever(User reciever) {
-		recievers.add(reciever);
-		reciever.getRecievedMessages().add(this);
+	public void addReceiver(User receiver) {
+		receivers.add(receiver);
+		receiver.getReceivedMessages().add(this);
 	}
 
 }

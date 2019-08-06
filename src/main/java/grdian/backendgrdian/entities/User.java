@@ -30,9 +30,9 @@ public class User {
 	@JsonManagedReference
 	private Set<AppMessage> sentMessages = new HashSet<AppMessage>();
 
-	@ManyToMany(mappedBy = "recievers")
+	@ManyToMany(mappedBy = "receivers")
 	@JsonIgnore
-	private Set<AppMessage> recievedMessages = new HashSet<AppMessage>();
+	private Set<AppMessage> receivedMessages = new HashSet<AppMessage>();
 
 	public User() {
 	}
@@ -79,13 +79,13 @@ public class User {
 		return sentMessages;
 	}
 
-	public Set<AppMessage> getRecievedMessages() {
-		return recievedMessages;
+	public Set<AppMessage> getReceivedMessages() {
+		return receivedMessages;
 	}
 
-	public void addRecievedMessage(AppMessage message) {
-		recievedMessages.add(message);
-		message.getRecievers().add(this);
+	public void addReceivedMessage(AppMessage message) {
+		receivedMessages.add(message);
+		message.getReceivers().add(this);
 	}
 
 	@Override
