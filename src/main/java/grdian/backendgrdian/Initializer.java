@@ -46,17 +46,24 @@ public class Initializer implements CommandLineRunner {
 
 	private void populateRepositories() {
 		User user01 = new User("Lawrence", "Mboya",
-				"https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=1&w=500",
+				"images/lawrence.jpg",
 				"1234567890", "mboya@gmail.com", "password");
 		User user02 = new User("Nazik", "Elhag",
-				"https://i.pinimg.com/originals/97/2c/58/972c58ce25d1e0bc96f2a787d254c26c.jpg", "0987654321",
+				"images/nazik.jpg", "0987654321",
 				"elhag@gmail.com", "password");
-		User user03 = new User("Tyler", "Conner", "https://cdn7.dissolve.com/p/D237_88_779/D237_88_779_1200.jpg",
+		User user03 = new User("Tyler", "Conner", "images/tyler.jpg",
 				"0987654321", "conner@gmail.com", "password");
+		User user04 = new User("Charles", "Doan", "images/charles.jpg",
+				"0987654321", "doan@gmail.com", "password");
+		User user05 = new User("Bryce", "Sampson", "images/Bryce Sampson-square.jpg",
+				"0987654321", "sampson@gmail.com", "password");
+		
 
 		user01 = userRepo.save(user01);
 		user02 = userRepo.save(user02);
 		user03 = userRepo.save(user03);
+		user04 = userRepo.save(user04);
+		user05 = userRepo.save(user05);
 
 //		AppMessage message01 = new AppMessage("1 this is a message", user01);
 //		messageRepo.save(message01);
