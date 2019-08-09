@@ -53,7 +53,6 @@ public class UserController {
 		String phoneNumber = json.getString("phoneNumber");
 		String emailAddress = json.getString("emailAddress");
 		String password = json.getString("password");
-
 		userRepo.save(new User(firstName, lastName, imgURL, phoneNumber, emailAddress, password));
 		response.sendRedirect("/api/users");
 	}

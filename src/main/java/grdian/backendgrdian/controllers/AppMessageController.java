@@ -1,10 +1,12 @@
 package grdian.backendgrdian.controllers;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.skyscreamer.jsonassert.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import grdian.backendgrdian.entities.AppMessage;
 import grdian.backendgrdian.entities.User;
-import grdian.backendgrdian.entities.postmodels.InboxRequestPostModel;
-import grdian.backendgrdian.entities.postmodels.MessagePostModel;
 import grdian.backendgrdian.repos.AppMessageRepository;
 import grdian.backendgrdian.repos.UserRepository;
 
@@ -53,18 +53,22 @@ public class AppMessageController {
 	}
 
 	@PostMapping("/messages")
-	public void sendNewMessage(@RequestBody MessagePostModel messageModel) {
-		User sender = userRepo.findById(messageModel.getSenderId()).get();
-		String body = messageModel.getBody();
+	public void sendNewMessage(@RequestBody String jsonBody, HttpServletResponse response)
+			throws JSONException, IOException {
+		JSONObject json = (JSONObject) JSONParser.parseJSON(jsonBody);
+
+		Long senderId = Long.parseLong(json.getString("senderId"));
+		String body = json.getString("body");
+		User sender = userRepo.findById(senderId).get();
+
 		AppMessage message = new AppMessage(body, sender);
 		messageRepo.save(message);
 		mailMan.sendMessageToUsers(message);
 	}
 
-	@PostMapping("/messages/inbox")
-	public Set<AppMessage> sendInboxToUser(@RequestBody InboxRequestPostModel inboxRequestPostModel) {
-		Long receiverId = inboxRequestPostModel.getRecieverId();
-		User receiver = userRepo.findById(receiverId).get();
+	@GetMapping("/messages/inbox/{id}")
+	public Set<AppMessage> sendInboxToUser(@PathVariable() Long id) {
+		User receiver = userRepo.findById(id).get();
 		Set<AppMessage> inbox = mailMan.getInboxForUser(receiver);
 		return inbox;
 	}

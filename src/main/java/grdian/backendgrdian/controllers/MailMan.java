@@ -22,7 +22,6 @@ public class MailMan {
 	AppMessageRepository messageRepo;
 
 	public void sendMessageToUsers(AppMessage message) {
-
 		Iterable<User> users = userRepo.findAll();
 		for (User user : users) {
 			if (user != message.getSender()) {
