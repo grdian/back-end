@@ -1,12 +1,13 @@
 package grdian.backendgrdian.webLayerTest;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Collections;
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import grdian.backendgrdian.controllers.UserController;
 import grdian.backendgrdian.entities.AppMessage;
 import grdian.backendgrdian.entities.User;
-import grdian.backendgrdian.entities.postmodels.InboxRequestPostModel;
-import grdian.backendgrdian.entities.postmodels.MessagePostModel;
 import grdian.backendgrdian.repos.UserRepository;
 
 @WebMvcTest(UserController.class)
@@ -31,57 +30,33 @@ import grdian.backendgrdian.repos.UserRepository;
 public class UserWebLayerTest {
 	@Autowired
 	MockMvc mockMvc;
-	
+
 	@MockBean
 	UserRepository userRepo;
-	
+
 	private AppMessage appMessage;
-	private InboxRequestPostModel inboxRequestPostModel;
-	private MessagePostModel messagePostModel;
 	private User user;
-	
+
 	private ObjectMapper mapper = new ObjectMapper();
 
-	
-	
 	@Before
-	public void setup() {
-		user = new User ("firstName", "lastName", "imgURL", "phoneNumber", "emailAddress",
-				 "password");
-	}
-	
+	public void setup()
+		{
+		user = new User("firstName", "lastName", "imgURL", "phoneNumber", "emailAddress", "password");
+		}
+
 	@Test
-	public void fetchAllUsers() throws Exception {
-	when(userRepo.findAll()).thenReturn(Collections.singletonList(user));
-	mockMvc.perform(get("/api/users")).andExpect(status().isOk())
-	.andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(content().json("[{}]"))
-	.andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(user)), true));
-	}
-	
+	public void fetchAllUsers() throws Exception
+		{
+		when(userRepo.findAll()).thenReturn(Collections.singletonList(user));
+		mockMvc.perform(get("/api/users")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(content().json("[{}]")).andExpect(content().json(mapper.writeValueAsString(Collections.singletonList(user)), true));
+		}
+
 	@Test
-	public void fetchSingleAlbum()throws Exception {
+	public void fetchSingleAlbum() throws Exception
+		{
 		when(userRepo.findById(1L)).thenReturn(Optional.of(user));
-		mockMvc.perform(get("/api/users/1")).andExpect(status().isOk())
-				.andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(content().json("{}"))
-				.andExpect(content().json(mapper.writeValueAsString(user), true));
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		mockMvc.perform(get("/api/users/1")).andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8")).andExpect(content().json("{}")).andExpect(content().json(mapper.writeValueAsString(user), true));
+		}
+
 }
