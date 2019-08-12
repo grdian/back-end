@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 /bin/
+twilio.properties
 
 ### STS ###
 .apt_generated
